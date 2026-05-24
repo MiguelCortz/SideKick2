@@ -1,0 +1,15 @@
+{
+  "date": "2026-05-18",
+  "scores": {
+    "InMail": 45,
+    "Publication": {
+      "text": 68,
+      "carousel": 82,
+      "video": 75,
+      "image": 70,
+      "poll": 65
+    },
+    "Cold messages": 38,
+    "New forms": 155
+  }
+}

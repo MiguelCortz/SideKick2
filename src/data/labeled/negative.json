@@ -1,0 +1,37 @@
+[
+  {
+    "date": "2026-05-19",
+    "format": "text",
+    "score": 48,
+    "engagementRate": 50,
+    "label": "negative"
+  },
+  {
+    "date": "2026-05-19",
+    "format": "carousel",
+    "score": 60,
+    "engagementRate": 50,
+    "label": "negative"
+  },
+  {
+    "date": "2026-05-19",
+    "format": "video",
+    "score": 50,
+    "engagementRate": 50,
+    "label": "negative"
+  },
+  {
+    "date": "2026-05-19",
+    "format": "image",
+    "score": 52,
+    "engagementRate": 50,
+    "label": "negative"
+  },
+  {
+    "date": "2026-05-19",
+    "format": "poll",
+    "score": 40,
+    "engagementRate": 50,
+    "label": "negative"
+  }
+]
