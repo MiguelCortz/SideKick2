@@ -9,13 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SprintRouteImport } from './routes/sprint'
 import { Route as ScoreRouteImport } from './routes/score'
+import { Route as PRouteImport } from './routes/p'
 import { Route as ImproveRouteImport } from './routes/improve'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 
+const SprintRoute = SprintRouteImport.update({
+  id: '/sprint',
+  path: '/sprint',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScoreRoute = ScoreRouteImport.update({
   id: '/score',
   path: '/score',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PRoute = PRouteImport.update({
+  id: '/p',
+  path: '/p',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImproveRoute = ImproveRouteImport.update({
@@ -28,44 +41,82 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
+  id: '/api/transcribe',
+  path: '/api/transcribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/improve': typeof ImproveRoute
+  '/p': typeof PRoute
   '/score': typeof ScoreRoute
+  '/sprint': typeof SprintRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/improve': typeof ImproveRoute
+  '/p': typeof PRoute
   '/score': typeof ScoreRoute
+  '/sprint': typeof SprintRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/improve': typeof ImproveRoute
+  '/p': typeof PRoute
   '/score': typeof ScoreRoute
+  '/sprint': typeof SprintRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/improve' | '/score'
+  fullPaths: '/' | '/improve' | '/p' | '/score' | '/sprint' | '/api/transcribe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/improve' | '/score'
-  id: '__root__' | '/' | '/improve' | '/score'
+  to: '/' | '/improve' | '/p' | '/score' | '/sprint' | '/api/transcribe'
+  id:
+    | '__root__'
+    | '/'
+    | '/improve'
+    | '/p'
+    | '/score'
+    | '/sprint'
+    | '/api/transcribe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ImproveRoute: typeof ImproveRoute
+  PRoute: typeof PRoute
   ScoreRoute: typeof ScoreRoute
+  SprintRoute: typeof SprintRoute
+  ApiTranscribeRoute: typeof ApiTranscribeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sprint': {
+      id: '/sprint'
+      path: '/sprint'
+      fullPath: '/sprint'
+      preLoaderRoute: typeof SprintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/score': {
       id: '/score'
       path: '/score'
       fullPath: '/score'
       preLoaderRoute: typeof ScoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/p': {
+      id: '/p'
+      path: '/p'
+      fullPath: '/p'
+      preLoaderRoute: typeof PRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/improve': {
@@ -82,14 +133,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/transcribe': {
+      id: '/api/transcribe'
+      path: '/api/transcribe'
+      fullPath: '/api/transcribe'
+      preLoaderRoute: typeof ApiTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ImproveRoute: ImproveRoute,
+  PRoute: PRoute,
   ScoreRoute: ScoreRoute,
+  SprintRoute: SprintRoute,
+  ApiTranscribeRoute: ApiTranscribeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
